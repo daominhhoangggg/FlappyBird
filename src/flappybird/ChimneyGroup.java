@@ -10,12 +10,12 @@ import java.io.File;
 import java.util.Random;
 
 public class ChimneyGroup {
-    private QueueList<Chimney> chimneys;
-    private BufferedImage chimneyImage, chimneyImage2;
+    private QueueList<Chimney> chimneys;    // Tạo hàng đợi ống khói
+    private BufferedImage chimneyImage, chimneyImage2;  // Ảnh Ống khói xuôi, ngược
 
-    public static int SIZE = 6;
-    private int topChimneyY = -350;
-    private int bottomChimneyY = 180;
+    public static int SIZE = 6;             // Kích thước của hàng đợi
+    private int topChimneyY = -350;         // Tọa độ ống khói phía trên
+    private int bottomChimneyY = 180;       // Tọa độ ống khói phía dưới
 
     public Chimney getChimney(int i) {
         return chimneys.get(i);
@@ -24,11 +24,11 @@ public class ChimneyGroup {
         Random random = new Random();
         int a;
         a = random.nextInt(10);
-
+        // Thay đổi giá trị số để tăng/giảm khoảng các giữa các ống khói
         return a*30;
     }
 
-    public ChimneyGroup() {
+    public ChimneyGroup() {     // Hàm hiển thị ống khói
         try {
             chimneyImage = ImageIO.read(new File("Assets/chimney.png"));
             chimneyImage2 = ImageIO.read(new File("Assets/chimney_.png"));
@@ -41,9 +41,10 @@ public class ChimneyGroup {
         Chimney cn;
 
         for(int i = 0; i < SIZE/2; i++) {
-
+            // Lấy random
             int deltaY = getRandomY();
 
+            // Nhập tọa độ kèm giá trị random
             cn = new Chimney(830+i*300, bottomChimneyY + deltaY, 74, 400);
             chimneys.push(cn);
 
@@ -67,7 +68,6 @@ public class ChimneyGroup {
 
             cn = new Chimney(830+i*300, topChimneyY + deltaY, 74, 400 );
             chimneys.push(cn);
-
         }
     }
 
@@ -76,10 +76,12 @@ public class ChimneyGroup {
             chimneys.get(i).update();
         }
 
+        // Nếu ống khói đầu tiên trôi quá tọa độ -74 thì chuyển về cuối
         if(chimneys.get(0).getPosX() < -74) {
 
             int deltaY = getRandomY();
 
+            // Chuyển ống khói phía dưới
             Chimney cn;
             cn = chimneys.pop();
             cn.setPosX(chimneys.get(4).getPosX() + 300);
@@ -87,6 +89,7 @@ public class ChimneyGroup {
             cn.setIsBehindBird(false);
             chimneys.push(cn);
 
+            // Chuyển ống khói phía trên
             cn = chimneys.pop();
             cn.setPosX(chimneys.get(4).getPosX());
             cn.setPosY(topChimneyY + deltaY);
