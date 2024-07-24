@@ -23,6 +23,7 @@ public class FlappyBird extends GameScreen {
     private ChimneyGroup chimneyGroup;
 
     private int Point = 0;      // Điểm số
+    private int Highscore = 0;  // Điểm cao
 
     // Các Màn Hình Game
     private int BEGIN_SCREEN = 0;
@@ -76,6 +77,7 @@ public class FlappyBird extends GameScreen {
     public void GAME_UPDATE(long deltaTime) {
         // Phương thức này sẽ xử lý các tương tác trong Game
         if(CurrentScreen == BEGIN_SCREEN) {
+            if(Point > Highscore) Highscore = Point;    // Cập nhật điểm cao
             resetGame();
         } else if(CurrentScreen == GAMEPLAY_SCREEN) {
             // Xử lý khi Đang trong trò chơi
@@ -132,14 +134,17 @@ public class FlappyBird extends GameScreen {
 
         // Giao diện các màn hình game
         g2.setFont(plain);
-        if(CurrentScreen == BEGIN_SCREEN) {
-            g2.setColor(Color.red);
-            g2.drawString("Press space to play game", 250, 340);
-        }
-
         if(CurrentScreen == GAMEOVER_SCREEN) {
             g2.setColor(Color.red);
             g2.drawString("Press space to retry", 250, 340);
+        }
+
+        if(CurrentScreen == BEGIN_SCREEN) {
+            g2.setColor(Color.red);
+            g2.drawString("Press space to play game", 250, 340);
+
+            g2.setFont(bold);
+            g2.drawString("Highscore: " + Highscore, 20, 80);
         }
 
         // Hiển thị điểm số
